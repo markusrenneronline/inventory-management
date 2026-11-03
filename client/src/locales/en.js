@@ -6,6 +6,7 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -103,6 +104,13 @@ export default {
 
   // Orders
   orders: {
+    submittedOrders: {
+      title: 'Submitted Orders',
+      empty: 'No restocking orders have been submitted yet',
+      leadTime: 'Lead Time',
+      leadTimeDays: '{count} days',
+      itemsCount: '{count} items'
+    },
     title: 'Orders',
     description: 'View and manage customer orders',
     allOrders: 'All Orders',
@@ -127,6 +135,34 @@ export default {
       expectedDelivery: 'Expected Delivery',
       actualDelivery: 'Actual Delivery'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Plan a restocking order based on demand forecasts and your budget',
+    budget: 'Budget',
+    budgetLabel: 'Restocking budget',
+    recommendedItems: 'Recommended Items',
+    table: {
+      sku: 'SKU',
+      itemName: 'Item Name',
+      quantity: 'Quantity',
+      unitCost: 'Unit Cost',
+      lineCost: 'Line Cost',
+      leadTime: 'Lead Time (days)'
+    },
+    summary: 'Order Summary',
+    totalSpent: 'Total Spent',
+    remainingBudget: 'Remaining Budget',
+    orderLeadTime: 'Order Lead Time',
+    days: '{count} days',
+    placeOrder: 'Place Order',
+    placing: 'Placing order...',
+    success: 'Order {orderNumber} submitted. Lead time: {days} days.',
+    error: 'Failed to place order',
+    empty: 'No items fit the selected budget. Increase the budget to see recommendations.',
+    loadError: 'Failed to load demand forecasts'
   },
 
   // Finance/Spending
