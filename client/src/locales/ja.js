@@ -340,6 +340,27 @@ export default {
     noTasks: 'タスクがありません。上記からタスクを追加してください！'
   },
 
+  // Purchase Order Modal
+  purchaseOrder: {
+    createTitle: '発注書を作成',
+    viewTitle: '発注書',
+    item: '品目',
+    supplier: 'サプライヤー',
+    supplierPlaceholder: 'サプライヤー名を入力...',
+    quantity: '数量',
+    unitCost: '単価 (USD)',
+    totalValue: '合計金額',
+    expectedDelivery: '納期予定日',
+    notes: '備考 (任意)',
+    poId: '発注番号',
+    status: 'ステータス',
+    createdDate: '作成日',
+    submit: '発注書を作成',
+    submitting: '作成中...',
+    loadFailed: '発注書の読み込みに失敗しました',
+    createFailed: '発注書の作成に失敗しました'
+  },
+
   // Language
   language: {
     english: 'English',
