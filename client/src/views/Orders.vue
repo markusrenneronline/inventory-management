@@ -29,6 +29,52 @@
 
       <div class="card">
         <div class="card-header">
+          <h3 class="card-title">{{ t('orders.submittedOrders.title') }} ({{ restockingOrders.length }})</h3>
+        </div>
+        <div v-if="restockingError" class="error">{{ restockingError }}</div>
+        <div v-else-if="restockingOrders.length === 0" class="loading">{{ t('orders.submittedOrders.empty') }}</div>
+        <div v-else class="table-container">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th class="col-order-number">{{ t('orders.table.orderNumber') }}</th>
+                <th class="col-items">{{ t('orders.table.items') }}</th>
+                <th class="col-value">{{ t('orders.table.totalValue') }}</th>
+                <th class="col-date">{{ t('orders.table.orderDate') }}</th>
+                <th class="col-date">{{ t('orders.submittedOrders.leadTime') }}</th>
+                <th class="col-date">{{ t('orders.table.expectedDelivery') }}</th>
+                <th class="col-status">{{ t('orders.table.status') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in restockingOrders" :key="order.id">
+                <td class="col-order-number"><strong>{{ order.order_number }}</strong></td>
+                <td class="col-items">
+                  <details class="items-details">
+                    <summary class="items-summary">
+                      {{ t('orders.submittedOrders.itemsCount', { count: order.items.length }) }}
+                    </summary>
+                    <div class="items-dropdown">
+                      <div v-for="item in order.items" :key="item.sku" class="item-entry">
+                        <span class="item-name">{{ translateProductName(item.name) }}</span>
+                        <span class="item-meta">{{ t('orders.quantity') }}: {{ item.quantity }} @ {{ formatCurrencyWithDecimals(item.unit_cost, currentCurrency, 2) }}</span>
+                      </div>
+                    </div>
+                  </details>
+                </td>
+                <td class="col-value"><strong>{{ formatCurrency(order.total_value, currentCurrency) }}</strong></td>
+                <td class="col-date">{{ formatDate(order.order_date) }}</td>
+                <td class="col-date">{{ t('orders.submittedOrders.leadTimeDays', { count: order.lead_time_days }) }}</td>
+                <td class="col-date">{{ formatDate(order.expected_delivery) }}</td>
+                <td class="col-status"><span class="badge info">{{ order.status }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
           <h3 class="card-title">{{ t('orders.allOrders') }} ({{ orders.length }})</h3>
         </div>
         <div class="table-container">
@@ -83,6 +129,7 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { api } from '../api'
 import { useFilters } from '../composables/useFilters'
 import { useI18n } from '../composables/useI18n'
+import { formatCurrency, formatCurrencyWithDecimals } from '../utils/currency'
 
 export default {
   name: 'Orders',
@@ -95,6 +142,8 @@ export default {
     const loading = ref(true)
     const error = ref(null)
     const orders = ref([])
+    const restockingOrders = ref([])
+    const restockingError = ref(null)
 
     // Use shared filters
     const {
@@ -153,7 +202,19 @@ export default {
       })
     }
 
-    onMounted(loadOrders)
+    // Independent of global filters; a failure here must not hide the main table
+    const loadRestockingOrders = async () => {
+      try {
+        restockingOrders.value = await api.getRestockingOrders()
+      } catch (err) {
+        restockingError.value = 'Failed to load submitted orders: ' + err.message
+      }
+    }
+
+    onMounted(() => {
+      loadOrders()
+      loadRestockingOrders()
+    })
 
     return {
       t,
@@ -164,6 +225,11 @@ export default {
       getOrderStatusClass,
       formatDate,
       currencySymbol,
+      currentCurrency,
+      restockingOrders,
+      restockingError,
+      formatCurrency,
+      formatCurrencyWithDecimals,
       translateProductName,
       translateCustomerName
     }

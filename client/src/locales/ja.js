@@ -6,6 +6,7 @@ export default {
     orders: '注文',
     finance: '財務',
     demandForecast: '需要予測',
+    restocking: '補充',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -103,6 +104,13 @@ export default {
 
   // Orders
   orders: {
+    submittedOrders: {
+      title: '発注済み注文',
+      empty: '補充注文はまだ送信されていません',
+      leadTime: 'リードタイム',
+      leadTimeDays: '{count}日',
+      itemsCount: '{count}点'
+    },
     title: '注文',
     description: '顧客注文の表示と管理',
     allOrders: 'すべての注文',
@@ -127,6 +135,34 @@ export default {
       expectedDelivery: '予定配達日',
       actualDelivery: '実際の配達日'
     }
+  },
+
+  // 補充
+  restocking: {
+    title: '補充',
+    description: '需要予測と予算に基づいて補充注文を計画します',
+    budget: '予算',
+    budgetLabel: '補充予算',
+    recommendedItems: '推奨アイテム',
+    table: {
+      sku: 'SKU',
+      itemName: '商品名',
+      quantity: '数量',
+      unitCost: '単価',
+      lineCost: '小計',
+      leadTime: 'リードタイム(日)'
+    },
+    summary: '注文サマリー',
+    totalSpent: '合計支出',
+    remainingBudget: '残り予算',
+    orderLeadTime: '注文リードタイム',
+    days: '{count}日',
+    placeOrder: '注文する',
+    placing: '注文中...',
+    success: '注文 {orderNumber} を送信しました。リードタイム: {days}日。',
+    error: '注文の送信に失敗しました',
+    empty: '選択した予算に収まるアイテムがありません。予算を増やしてください。',
+    loadError: '需要予測の読み込みに失敗しました'
   },
 
   // Finance/Spending
